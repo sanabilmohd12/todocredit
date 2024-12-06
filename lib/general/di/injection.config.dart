@@ -12,6 +12,8 @@ import 'package:cloud_firestore/cloud_firestore.dart' as _i974;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
+import '../../features/todos/data/i_todo_facade.dart' as _i364;
+import '../../features/todos/repo/i_todo_impl.dart' as _i262;
 import 'injectable_module.dart' as _i109;
 
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -32,6 +34,8 @@ Future<_i174.GetIt> init(
   );
   gh.lazySingleton<_i974.FirebaseFirestore>(
       () => firebaseInjectableModule.firebaseFirestore);
+  gh.lazySingleton<_i364.ITodofacade>(
+      () => _i262.ITodoimpl(gh<_i974.FirebaseFirestore>()));
   return getIt;
 }
 

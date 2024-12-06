@@ -1,24 +1,24 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-class Todomodel {
-  final String id;
+class TodoModel {
+  final String? id;
   final String title;
   final num amount;
   final bool isCredited; 
-  Todomodel({
-    required this.id,
+  TodoModel({
+     this.id,
     required this.title,
     required this.amount,
     required this.isCredited,
   });
 
-  Todomodel copyWith({
+  TodoModel copyWith({
     String? id,
     String? title,
     num? amount,
     bool? isCredited,
   }) {
-    return Todomodel(
+    return TodoModel(
       id: id ?? this.id,
       title: title ?? this.title,
       amount: amount ?? this.amount,
@@ -35,8 +35,8 @@ class Todomodel {
     };
   }
 
-  factory Todomodel.fromMap(Map<String, dynamic> map) {
-    return Todomodel(
+  factory TodoModel.fromMap(Map<String, dynamic> map) {
+    return TodoModel(
       id: map['id'] as String,
       title: map['title'] as String,
       amount: map['amount'] as num,

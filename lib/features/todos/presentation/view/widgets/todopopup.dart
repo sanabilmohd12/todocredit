@@ -11,7 +11,7 @@ void addItemPopup(
   // required String userId,
   // String? username,
 }) {
-  showDialog(
+  showDialog( 
     context: context,
     builder: (context) {
       
@@ -99,13 +99,19 @@ void addItemPopup(
                               onPressed: () async {
                                 if (formKey.currentState!.validate()) {
                                   final navi = Navigator.of(context);
-                                  // todo.addTodos(
-                                  //   amountController: todo.todoAmountController,
-                                  //   titleController: todo.todoitemController,
-                                  //   isCredited: todo.isCredited,
-                                  //   context: context,
+                                  todo.uploadTodo(onFailure: () {
+                                     log("failed");
+                                    
+                                  },
+                                  onSuccess: () {
+
+                                    log("success");
+                                    
+                                  },
+                                    
+                                    
                                   
-                                  // );
+                                  );
                                   log("ggg");
               
                                   navi.pop();

@@ -12,16 +12,18 @@ class Todoscreen extends StatefulWidget {
 
 class _TodoscreenState extends State<Todoscreen> {
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+      final ScrollController scrollController = ScrollController();
+
      @override
-  // void initState() {
-  //   final todoProvider = Provider.of<TodoProvider>(context, listen: false);
-  //   WidgetsBinding.instance.addPostFrameCallback(
-  //     (_) {
-  //       todoProvider.loadTodos();
-  //     },
-  //   );
-  //   super.initState();
-  // }
+  void initState() {
+    final todoProvider = Provider.of<TodoProvider>(context, listen: false);
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        todoProvider.initData(scrollController: scrollController);
+      },
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,25 +31,27 @@ class _TodoscreenState extends State<Todoscreen> {
       
       backgroundColor: Colors.white,
       appBar: AppBar(backgroundColor: Colors.blue,
-        title:  const Text('Total Net: ₹',style: TextStyle(color: Colors.white),),),
+        title:  const Text('Transactions',style: TextStyle(color: Colors.white),),),
 
 
       body: Consumer<TodoProvider>(
         builder: (context,todopro,child) {
            
           return ListView.builder(
-            itemCount: 2,
+            itemCount: todopro.todoList.length,
             shrinkWrap: true,
             physics: const ScrollPhysics(),
             itemBuilder: (context, index) {
+                        final todos = todopro.todoList[index];
+
               return ListTile(contentPadding: const EdgeInsets.fromLTRB(1,4,24,4),
-                title: const Text("todos[index].title"),
-                subtitle:  const Text("todos[index].amount.toString()"),
+                title: Text(todos.title),
+                subtitle:  Text(todos.amount.toString()),
                 leading: IconButton(onPressed: () {
                   
                   // todopro.deleteTodo(todos[index].id);
                 }, icon: const Icon(Icons.delete_forever_outlined,color: Colors.red,)),
-                // trailing:  Text(todos[index].isCredited ? 'Credited'  : 'Debited', style:todos[index].isCredited ? const TextStyle(color: Colors.green):const TextStyle(color: Colors.red)),
+                trailing:  Text(todos.isCredited ? 'Credited'  : 'Debited', style:todos.isCredited ? const TextStyle(color: Colors.green):const TextStyle(color: Colors.red)),
               );
             
             
