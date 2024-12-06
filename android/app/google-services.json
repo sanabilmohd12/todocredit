@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "771248560614",
+    "project_id": "todocredit-8e731",
+    "storage_bucket": "todocredit-8e731.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:771248560614:android:df2435c77a8a96d7981e27",
+        "android_client_info": {
+          "package_name": "com.creditapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQPxi_6gAveGJZwV_5hS3n2CBvtZ9yJ20"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
