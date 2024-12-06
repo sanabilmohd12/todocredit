@@ -31,13 +31,22 @@ class _TodoscreenState extends State<Todoscreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        title: const Text(
-          'Transactions',
-          style: TextStyle(color: Colors.white),
+        title: Consumer<TodoProvider>(
+          builder: (context,todoprov,child) {
+            return Column(
+              children: [
+                // Text("Total Credit: ${todoprov.totals['totalCredit']}"),
+                // Text("Total Debit: ${todoprov.totals['totalDebit']}"),
+                Text("Net Profit: ${todoprov.totals['netProfit']}"),
+              ],
+            );
+          }
         ),
+
       ),
       body: Consumer<TodoProvider>(builder: (context, todopro, child) {
         return ListView.builder(
+          controller: scrollController,
           itemCount: todopro.todoList.length,
           shrinkWrap: true,
           physics: const ScrollPhysics(),

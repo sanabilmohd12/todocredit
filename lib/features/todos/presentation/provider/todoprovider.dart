@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:creditapp/features/todos/data/i_todo_facade.dart';
 import 'package:creditapp/features/todos/data/model/todo_model.dart';
 import 'package:flutter/material.dart';
@@ -78,10 +79,29 @@ class TodoProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Map<String, dynamic> totals = {
+      "totalCredit": 0,
+      "totalDebit": 0,
+      "netProfit": 0
+    };
+
+    Future<void> fetchTotals() async {
+      final metaRef =
+          FirebaseFirestore.instance.collection('metaData').doc('totals');
+
+      final metaDoc = await metaRef.get();
+      if (metaDoc.exists) {
+        totals = metaDoc.data() as Map<String, dynamic>;
+        notifyListeners();
+      }
+    }
+
   Future<void> initData({
     required ScrollController scrollController,
   }) async {
     clearTodoList();
+    fetchTotals();
+
     _fetchTodo();
     scrollController.addListener(
       () {
@@ -95,35 +115,27 @@ class TodoProvider extends ChangeNotifier {
     );
   }
 
-  Future<void> deleteTodo({required String todoId})async {
+  Future<void> deleteTodo({required String todoId}) async {
     final result = await iTodofacade.deleteTodo(todoId: todoId);
-     result.fold(
+    result.fold(
       (err) {
         log(err.errorMessage);
       },
       (success) {
         removeTodoLocally(todoId);
-                log("deleted");
-
+        log("deleted");
       },
     );
     notifyListeners();
-
   }
 
   void removeTodoLocally(String todoId) {
-  final index = todoList.indexWhere((todo) => todo.id == todoId);
+    final index = todoList.indexWhere((todo) => todo.id == todoId);
 
-  if (index != -1) {
-    todoList.removeAt(index);
+    if (index != -1) {
+      todoList.removeAt(index);
 
-    notifyListeners();
+      notifyListeners();
+    }
   }
-}
-
-
-
-
-
-
 }
