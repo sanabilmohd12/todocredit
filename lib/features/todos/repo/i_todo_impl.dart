@@ -14,9 +14,9 @@ class ITodoimpl implements ITodofacade {
   ITodoimpl(this.firestore);
 
   @override
-  Future<Either<MainFailure, TodoModel>> uploadTodo({required TodoModel todoModel}) async {
-
-     try {
+  Future<Either<MainFailure, TodoModel>> uploadTodo(
+      {required TodoModel todoModel}) async {
+    try {
       final todoRef = firestore.collection(FirebaseCollections.todos);
       final id = todoRef.doc().id;
 
@@ -28,18 +28,11 @@ class ITodoimpl implements ITodofacade {
     } catch (e) {
       return left(MainFailure.serverFailure(errorMessage: e.toString()));
     }
-   
-
-
-
-
-
   }
 
-  
   DocumentSnapshot? lastDocument;
   bool noMoreData = false;
-  
+
   @override
   Future<Either<MainFailure, List<TodoModel>>> fetchTodo() async {
     if (noMoreData) return right([]);
@@ -47,8 +40,6 @@ class ITodoimpl implements ITodofacade {
       Query query = firestore
           .collection(FirebaseCollections.todos)
           .orderBy("amount", descending: true);
-
-      
 
       if (lastDocument != null) {
         query = query.startAfterDocument(lastDocument!);
@@ -71,19 +62,27 @@ class ITodoimpl implements ITodofacade {
     } catch (e) {
       return left(MainFailure.serverFailure(errorMessage: e.toString()));
     }
-    
   }
-  
+
   @override
-
-
   @override
   void clearData() {
     lastDocument = null;
     noMoreData = false;
   }
   
-  
-  
-  
+  @override
+  Future<Either<MainFailure, Unit>> deleteTodo({required String todoId}) async {
+    
+    try {
+    final todoRef = firestore.collection(FirebaseCollections.todos);
+
+    await todoRef.doc(todoId).delete();
+
+    return right(unit); // `unit` is used for void return types in Dartz.
+  } catch (e) {
+    return left(MainFailure.serverFailure(errorMessage: e.toString()));
   }
+
+  }
+}

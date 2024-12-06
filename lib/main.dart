@@ -7,11 +7,10 @@ import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
- await configureDependency();
+  await configureDependency();
 
   runApp(const MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -20,7 +19,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (context) => TodoProvider(iTodofacade:  sl<ITodofacade>()),)],
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => TodoProvider(iTodofacade: sl<ITodofacade>()),
+        )
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
